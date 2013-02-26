@@ -1,7 +1,7 @@
 from random import randint as r
 
 class Die:
-"""Class that implements a die"""
+    """Class that implements a die"""
     sides = 6 #: Number of sides the die has
 
     def __init__(self,sides = 6):

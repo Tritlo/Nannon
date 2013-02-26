@@ -1,5 +1,5 @@
 class Board:
-"""Class that implements the Nannon Board"""
+    """Class that implements the Nannon Board"""
     board = None #: The current state of the board
     home = lambda self,x: 0 if x == -1 else 7 #: Function that says what is home for black and white
     safety = lambda self,x: 7 if x == -1 else 0 #: Function that states what is safety for black and white
@@ -46,18 +46,18 @@ class Board:
         """
         sa = self.safety(col)
         if to == sa:
-            print "%d safe!" %(col)
+            pass
         else:
             if self.board[to-1] != 0:
                 self.homes[self.board[to-1]] = self.homes[self.board[to-1]] + 1
             self.board[to-1] = col
             
     def checkWin(self):
-        """
-        #Use: b = s.checkWin()
-        #Pre: s is a board
-        #Post: b True if the game is over else false
-        """
+       """
+       #Use: b = s.checkWin()
+       #Pre: s is a board
+       #Post: b True if the game is over else false
+       """
        if -1 not in self.board and self.homes[-1] == 0:
            return True
        if 1 not in self.board and self.homes[1] == 0:
