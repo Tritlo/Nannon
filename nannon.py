@@ -74,24 +74,30 @@ class Nannon:
                 roll = self.roll(self.current)
                 v = self.board.validMoves(roll,self.current)
                 if v == []:
-                    print "It is %s's turn. Roll %d" % (self.intToColor(self.current), roll)
-                    print "No available moves"
-                    print 
+                    if not auto:
+                        print "It is %s's turn. Roll %d" % (self.intToColor(self.current), roll)
+                        print "No available moves"
+                        print 
                     continue
-                print "It is %s's turn. Roll %d" % (self.intToColor(self.current), roll)
+                if not auto:
+                    print "It is %s's turn. Roll %d" % (self.intToColor(self.current), roll)
                 iTC = lambda  x: "w" if x == -1 else " " if x == 0 else "b"
-                print "Board:\n %s %s %s" %(self.board.homes[-1], map(iTC, self.board.board), self.board.homes[1])
-                print " W   1    2    3    4    5    6   B"
-                print "Choose from the following moves (default 0)"
-                self.printMoves(v,self.current)
+                if not auto:
+                    print "Board:\n %s %s %s" %(self.board.homes[-1], map(iTC, self.board.board), self.board.homes[1])
+                    print " W   1    2    3    4    5    6   B"
+                    print "Choose from the following moves (default 0)"
+                    self.printMoves(v,self.current)
                 ch = self.getInput(len(v)+1) if not auto else 0
                 fr,to = v[int(ch)]
                 gameOver = self.board.move(fr,to)
-                print
+                if not auto:
+                    print
             self.points[self.current] = self.points[self.current]+1
-            print "The winner of this round is %s!" % (self.intToColor(self.current))
+            if not auto:
+                print "The winner of this round is %s!" % (self.intToColor(self.current))
             self.games = self.games+1
-            print
+            if not auto:
+                print
         winner = -1 if self.points[-1] > self.points[1] else 0 if self.points[-1] == self.points[1] else 1
         pointString = (self.points[winner],self.points[winner*-1]) if winner != 0 else (self.points[1],self.points[1])
         print "The final winner is %s with %s points, after %d games" % (self.intToColor(winner), "%d to %d" % pointString ,self.games)
@@ -106,5 +112,5 @@ class Nannon:
             
 if __name__=="__main__":
     nan = Nannon()
-    nan.gameLoop(100,True)
+    nan.gameLoop(100000,True)
     
