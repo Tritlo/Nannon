@@ -2,27 +2,32 @@ from Die import Die
 from Board import Board
 
 class Nannon:
-    
-    board = None
-    die = None
-    points = {-1:0,1:0}
-    whitePoints = 0 #: How many points white has
-    blackPoints = 0#: How many points black has
+"""A class that implements the Nannon game"""    
+    board = None #: The board the game is played on
+    die = None #: The die used to play the game
+    points = {-1:0,1:0} #: How many points each side has. Note, -1 is used to represent white, and 1 black
     games = 0 #: Games played
-    
-    current = 0
+    current = 0 #: The current player. 0 at start of game
     
     def __init__(self):
-
+        """
+        #Use: s = Nannon()
+        #Pre: None
+        #Post: s is a new Nannon game
+        """
         self.board = Board()
         self.die = Die()
     
+        self.points = {-1:0,1:0}
+        self.games = 0 
+
+        self.current = 0
 
     def roll(self,current=0):
         """
-        #Use: s.roll(s)
-        #Pre: s is "initial", "black" or "white"
-        #Post: Alea iacta est, according to what roll is to be made.
+        #Use: k = s.roll(j)
+        #Pre: s is a Nannon game.
+        #Post: Alea iacta est. The dies are cast for the initial throw if current is 0, or just rolled if current is something else/not provided
         """
         if current == 0:
             whiteDie = self.die.roll() 
@@ -36,7 +41,14 @@ class Nannon:
             return self.die.roll()
        
     def gameLoop(self,gamesToPlay = 1):
+        """
+        #Use: s.gameLoop(i)
+        #Pre: i is an integer, or optional
+        #Post: The game has been played for i rounds, 1 if i not provided
+        """
+        k = lambda x: "white" if x == -1 else "none" if x == 0 else "black"
         while self.games < gamesToPlay:
+            self.board = Board()
             self.current = 0
             gameOver = False
             roll = self.roll()
@@ -46,25 +58,30 @@ class Nannon:
                 roll = self.roll(self.current)
                 v = self.board.validMoves(roll,self.current)
                 if v == []:
-                    print "%d turn. Roll %d" % (self.current, roll)
+                    print "It is %s's turn. Roll %d" % (k(self.current), roll)
                     print "No available moves"
                     continue
-                print "%d turn. Roll %d" % (self.current, roll)
-                print "Board: %s %s %s" %(self.board.homes[-1], self.board.board, self.board.homes[1])
+                print "%s turn. Roll %d" % (k(self.current), roll)
+                print "Board:\n White home: %s %s %s Black home" %(self.board.homes[-1], self.board.board, self.board.homes[1])
                 print "Choose from the following moves"
                 print v
-                ch = raw_input("Choice: ")
+                #ch = raw_input("Choice: ")
+                ch = "0"
                 print
                 if len(ch) == 0:
                     ch = 0
                 fr,to = v[int(ch)]
                 gameOver = self.board.move(fr,to)
             self.points[self.current] = self.points[self.current]+1
+            print "The winner of this round is %s!" % (k(self.current))
+            
             self.games = self.games+1
-        print self.games, self.points
+        winner = -1 if self.points[-1] > self.points[1] else 0 if self.points[-1] == self.points[1] else 1
+        pointString = (self.points[winner],self.points[winner*-1]) if winner != 0 else (self.points[1],self.points[1])
+        print "The winner is %s with %s points, after %d games" % (k(winner), "%d to %d" % pointString ,self.games)
                 
             
 if __name__=="__main__":
     nan = Nannon()
-    nan.gameLoop()
+    nan.gameLoop(100)
     
