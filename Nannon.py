@@ -59,11 +59,11 @@ class Nannon:
             self.getInput(lv)
         
        
-    def gameLoop(self,gamesToPlay = 1):
+    def gameLoop(self,gamesToPlay = 1, auto = False):
         """
-        #Use: s.gameLoop(i)
-        #Pre: i is an integer, or optional
-        #Post: The game has been played for i rounds, 1 if i not provided
+        #Use: s.gameLoop(i,a)
+        #Pre: i is an integer, a is boolean, both optional
+        #Post: The game has been played for i rounds, 1 if i not provided, automatically if auto is True
         """
         while self.games < gamesToPlay:
             self.board = Board()
@@ -79,10 +79,12 @@ class Nannon:
                     print 
                     continue
                 print "It is %s's turn. Roll %d" % (self.intToColor(self.current), roll)
-                print "Board:\n White home: %s %s %s Black home" %(self.board.homes[-1], self.board.board, self.board.homes[1])
+                iTC = lambda  x: "w" if x == -1 else " " if x == 0 else "b"
+                print "Board:\n %s %s %s" %(self.board.homes[-1], map(iTC, self.board.board), self.board.homes[1])
+                print " W   1    2    3    4    5    6   B"
                 print "Choose from the following moves (default 0)"
                 self.printMoves(v,self.current)
-                ch = self.getInput(len(v)+1) 
+                ch = self.getInput(len(v)+1) if not auto else 0
                 fr,to = v[int(ch)]
                 gameOver = self.board.move(fr,to)
                 print
@@ -92,7 +94,7 @@ class Nannon:
             print
         winner = -1 if self.points[-1] > self.points[1] else 0 if self.points[-1] == self.points[1] else 1
         pointString = (self.points[winner],self.points[winner*-1]) if winner != 0 else (self.points[1],self.points[1])
-        print "The winner is %s with %s points, after %d games" % (self.intToColor(winner), "%d to %d" % pointString ,self.games)
+        print "The final winner is %s with %s points, after %d games" % (self.intToColor(winner), "%d to %d" % pointString ,self.games)
 
     def printMoves(self,moves,color):
         for i,r in enumerate(moves):
@@ -104,5 +106,5 @@ class Nannon:
             
 if __name__=="__main__":
     nan = Nannon()
-    nan.gameLoop(2)
+    nan.gameLoop(100,True)
     
