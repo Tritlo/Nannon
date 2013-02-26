@@ -43,7 +43,7 @@ class Nannon:
     def getInput(self,lv):
         """
         #Use: ch = s.getInput(i)
-        #Pre: i is an integer
+        #Pre: i is an integer,  s is a Nannon object
         #Post: ch is an integer from stdin in [0,...,lv]
         """
         try:
@@ -98,19 +98,32 @@ class Nannon:
             self.games = self.games+1
             if not auto:
                 print
+
+    def printScore(self):
+        """
+        #Use: s.printScore()
+        #Pre: s i s a Nannon object
+        #Post: The current score has been printed 
+        """
         winner = -1 if self.points[-1] > self.points[1] else 0 if self.points[-1] == self.points[1] else 1
         pointString = (self.points[winner],self.points[winner*-1]) if winner != 0 else (self.points[1],self.points[1])
-        print "The final winner is %s with %s points, after %d games" % (self.intToColor(winner), "%d to %d" % pointString ,self.games)
+        print "Currently winning is %s with %s points, after %d games" % (self.intToColor(winner), "%d to %d" % pointString ,self.games)
 
     def printMoves(self,moves,color):
+        """
+        #Use: s.printMoves(m,c)
+        #Pre: s is a nannon object, m is a list of valid moves, color is the color of the player who can preform the moves
+        #Post: The current score has been printed 
+        """
         for i,r in enumerate(moves):
             f,t = r
             chart = dict(zip(range(1,7),range(1,7)))
             chart[self.board.home(color)] = "home"
             chart[self.board.safety(color)] =  "safety"
-            print "Move %d: Move checker from %s to %s" %(i,str(chart[f]),str(chart[t]))
+            print "Move %d: Move %s checker from %s to %s" %(i,self.intToColor(color),str(chart[f]),str(chart[t]))
             
 if __name__=="__main__":
     nan = Nannon()
-    nan.gameLoop(100000,True)
+    nan.gameLoop(100,True)
+    nan.printScore()
     
