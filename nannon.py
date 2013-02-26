@@ -107,7 +107,7 @@ class Nannon:
         """
         winner = -1 if self.points[-1] > self.points[1] else 0 if self.points[-1] == self.points[1] else 1
         pointString = (self.points[winner],self.points[winner*-1]) if winner != 0 else (self.points[1],self.points[1])
-        print "Currently winning is %s with %s points, after %d games" % (self.intToColor(winner), "%d to %d" % pointString ,self.games)
+        print "The score is %s with %s points, after %d games" % (self.intToColor(winner), "%d to %d" % pointString ,self.games)
 
     def printMoves(self,moves,color):
         """
