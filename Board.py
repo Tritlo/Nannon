@@ -5,14 +5,14 @@ class Board:
     safety = lambda self,x: 7 if x == -1 else 0 #: Function that states what is safety for black and white
     homes = {-1:1,1:1} #: How many checkers are in the home base of each side
     
-    def __init__(self):
+    def __init__(self, board = [-1,-1,0,0,1,1], homes= {-1:1,1:1}):
         """
         #Use: s = Board()
         #Pre: None
         #Post: s is a new Nannon game
         """
-        self.board = [-1,-1,0,0,1,1]
-        self.homes = {-1:1,1:1}
+        self.board = board
+        self.homes = homes
         
     def move(self,fr,to):
         """

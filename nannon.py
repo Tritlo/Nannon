@@ -8,7 +8,7 @@ class Nannon:
     points = {-1:0,1:0} #: How many points each side has. Note, -1 is used to represent white, and 1 black
     games = 0 #: Games played
     current = 0 #: The current player. 0 at start of game
-    intToColor = lambda self, x: "white" if x == -1 else "none" if x == 0 else "black"
+    intToColor = lambda self, x: "white" if x == -1 else "tied" if x == 0 else "black"
     def __init__(self):
         """
         #Use: s = Nannon()
@@ -40,7 +40,7 @@ class Nannon:
         else:
             return self.die.roll()
         
-    def getInput(self,lv):
+    def getInput(self,lv=None):
         """
         #Use: ch = s.getInput(i)
         #Pre: i is an integer,  s is a Nannon object
@@ -51,8 +51,9 @@ class Nannon:
             if len(ch) == 0:
                 ch = 0
             ch = int(ch)
-            if ch not in range(lv):
-                raise ValueError
+            if lv is not None:
+                if ch not in range(lv):
+                    raise ValueError
             return ch
         except ValueError:
             print "Invalid choice!"
@@ -84,7 +85,7 @@ class Nannon:
                     print self.board
                     print "Choose from the following moves (default 0):"
                     self.printMoves(v,self.current)
-                ch = self.getInput(len(v)+1) if not auto else 0
+                ch = self.getInput(len(v)+1) if not auto else 0 #Biased for black, len(v)-1 is biased for white
                 fr,to = v[int(ch)]
                 gameOver = self.board.move(fr,to)
                 if not auto:
@@ -92,9 +93,8 @@ class Nannon:
             self.points[self.current] = self.points[self.current]+1
             if not auto:
                 print "The winner of this round is %s!" % (self.intToColor(self.current))
+                self.printScore
             self.games = self.games+1
-            if not auto:
-                print
 
     def printScore(self):
         """
@@ -104,7 +104,7 @@ class Nannon:
         """
         winner = -1 if self.points[-1] > self.points[1] else 0 if self.points[-1] == self.points[1] else 1
         pointString = (self.points[winner],self.points[winner*-1]) if winner != 0 else (self.points[1],self.points[1])
-        print "The score is %s with %s points, after %d games" % (self.intToColor(winner), "%d to %d" % pointString ,self.games)
+        print "The score is %s with %s points, after %d games." % (self.intToColor(winner), "%d to %d" % pointString ,self.games)
 
     def printMoves(self,moves,color):
         """
@@ -124,6 +124,11 @@ class Nannon:
 if __name__=="__main__":
     nan = Nannon()
     #nan.gameLoop(100,True)
-    nan.gameLoop(2,False)
-    nan.printScore()
+    print "How many games do you want to play (default 0)?"
+    g = nan.getInput()
+    nan.gameLoop(g,False)
+    if g > 0:
+        nan.printScore()
+    else:
+        print "Goodbye!"
     
