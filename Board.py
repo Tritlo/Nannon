@@ -114,6 +114,21 @@ class Board:
             return True
         return False
 
+    def __str__(self):
+        """
+        #Use: k  = str(s)
+        #Pre: s is a board,
+        #Post: k is a string representing the board
+        """
+        iTC = lambda  x: "w" if x == -1 else " " if x == 0 else "b"
+        printList = ["w" if self.homes[-1] >=1 else " "] + map(iTC, self.board)+ [ "b" if self.homes[1] >=1 else " "]
+        r = ""
+        r = r + " %s   |    |    |    |    |    |   %s \n" % ("w" if self.homes[-1] >=3 else " ","b" if self.homes[1] ==3 else " ")
+        r = r +  " %s  / \  /:\  / \  /:\  / \  /:\  %s  \n" % ("w" if self.homes[-1] >=2 else " ","b" if self.homes[1] >=2 else " ")
+        r = r +  " %s / %s \/:%s:\/ %s \/:%s:\/ %s \/:%s:\ %s \n" % tuple(printList)
+        r = r +  " W   1    2    3    4    5    6   B "
+        return r
+
     def validMoves(self,roll,col):
         """
         #Use: b = s.validMoves(r,c)

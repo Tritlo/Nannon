@@ -75,17 +75,14 @@ class Nannon:
                 v = self.board.validMoves(roll,self.current)
                 if v == []:
                     if not auto:
-                        print "It is %s's turn. Roll %d" % (self.intToColor(self.current), roll)
-                        print "No available moves"
+                        print "It's %s's turn. The roll was %d." % (self.intToColor(self.current), roll)
+                        print "No available moves."
                         print 
                     continue
                 if not auto:
-                    print "It is %s's turn. Roll %d" % (self.intToColor(self.current), roll)
-                iTC = lambda  x: "w" if x == -1 else " " if x == 0 else "b"
-                if not auto:
-                    print "Board:\n %s %s %s" %(self.board.homes[-1], map(iTC, self.board.board), self.board.homes[1])
-                    print " W   1    2    3    4    5    6   B"
-                    print "Choose from the following moves (default 0)"
+                    print "It's %s's turn. The roll was %d." % (self.intToColor(self.current), roll)
+                    print self.board
+                    print "Choose from the following moves (default 0):"
                     self.printMoves(v,self.current)
                 ch = self.getInput(len(v)+1) if not auto else 0
                 fr,to = v[int(ch)]
@@ -120,10 +117,13 @@ class Nannon:
             chart = dict(zip(range(1,7),range(1,7)))
             chart[self.board.home(color)] = "home"
             chart[self.board.safety(color)] =  "safety"
-            print "Move %d: Move %s checker from %s to %s" %(i,self.intToColor(color),str(chart[f]),str(chart[t]))
+            print " %d: Move %s checker from %s to %s" %(i,self.intToColor(color),str(chart[f]),str(chart[t]))
+        for k in range(i,2):
+            print
             
 if __name__=="__main__":
     nan = Nannon()
-    nan.gameLoop(100,True)
+    #nan.gameLoop(100,True)
+    nan.gameLoop(2,False)
     nan.printScore()
     
