@@ -58,9 +58,7 @@ class Board:
        #Pre: s is a board
        #Post: b True if the game is over else false
        """
-       if -1 not in self.board and self.homes[-1] == 0:
-           return True
-       if 1 not in self.board and self.homes[1] == 0:
+       if (-1 not in self.board and self.homes[-1] == 0) or (1 not in self.board and self.homes[1] == 0):
            return True
        return False
    
@@ -88,13 +86,9 @@ class Board:
             return False
         sa = self.safety(co)
         ho = self.home(co)
-        if fr == ho:
+        if fr == ho or fr == sa:
             return False
-        if fr == sa:
-            return False
-        if fr == abs(ho-1) and (self.homes[co] > 0 or self.color(abs(ho-2)) == co):
-            return True
-        if self.color(fr-1) == co or self.color(fr+1) == co:
+        if fr == abs(ho-1) and (self.homes[co] > 0 or self.color(abs(ho-2)) == co) or self.color(fr-1) == co or self.color(fr+1) == co:
             return True
         
 
@@ -108,9 +102,7 @@ class Board:
         ho = self.home(col)
         if to not in range(0,8):
             return False
-        if to == sa or to == ho:
-            return True
-        if (self.board[to-1] != col and not self.prime(to)):
+        if to == sa or to == ho or (self.board[to-1] != col and not self.prime(to)):
             return True
         return False
 
