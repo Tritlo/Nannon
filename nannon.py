@@ -58,6 +58,18 @@ class Nannon:
         except ValueError:
             print "Invalid choice!"
             self.getInput(lv)
+
+    def newGame(self,auto=False):
+        """
+        #Use: s.newGame(a)
+        #Pre: a is boolean
+        #Post: The gameboard has been set up for a new game, and a messaged printed if the optional auto is false
+        """
+        if not auto:
+            print "New game, game %d \n\n" % (self.games)
+        self.board = Board([-1,-1,0,0,1,1],{-1:1,1:1})
+        self.current = 0
+        self.gameOver = False
         
        
     def gameLoop(self,gamesToPlay = 1, auto = False):
@@ -67,10 +79,8 @@ class Nannon:
         #Post: The game has been played for i rounds, 1 if i not provided, automatically if auto is True
         """
         while self.games < gamesToPlay:
-            self.board = Board()
-            self.current = 0
-            gameOver = False
-            while gameOver is False:
+            self.newGame(auto)
+            while self.gameOver is False:
                 self.current = self.current*-1
                 roll = self.roll(self.current)
                 v = self.board.validMoves(roll,self.current)
@@ -87,7 +97,7 @@ class Nannon:
                     self.printMoves(v,self.current)
                 ch = self.getInput(len(v)+1) if not auto else 0 #Biased for black, len(v)-1 is biased for white
                 fr,to = v[int(ch)]
-                gameOver = self.board.move(fr,to)
+                self.gameOver = self.board.move(fr,to)
                 if not auto:
                     print
             self.points[self.current] = self.points[self.current]+1

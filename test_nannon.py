@@ -14,6 +14,8 @@ class testNannon(unittest.TestCase):
         self.assertFalse(self.to.board.checkWin())
         self.to.gameLoop(1,auto=True) #after we've played the game, it should be finished
         self.assertTrue(self.to.board.checkWin())
+        self.to.newGame(auto=True)
+        self.assertFalse(self.to.board.checkWin())
         
     def testDie(self):
         for i in range(1000):
@@ -30,6 +32,8 @@ class testNannon(unittest.TestCase):
         self.assertNotIn((2,6),self.bo.validMoves(4,-1))
         self.assertNotIn((2,1),self.bo.validMoves(4,-1))
         self.assertNotIn((2,3),self.bo.validMoves(4,-1))
+        self.assertNotIn((1,7),self.bo.validMoves(6,-1))
+        self.assertNotIn((6,0),self.bo.validMoves(6,1))
         self.assertIn((2,4),self.bo2.validMoves(2,-1))
 
     def testConsequences(self):
