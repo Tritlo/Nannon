@@ -57,7 +57,7 @@ class Nannon:
             return ch
         except ValueError:
             print "Invalid choice!"
-            self.getInput(lv)
+            return self.getInput(lv)
 
     def newGame(self,auto=False):
         """
