@@ -9,7 +9,7 @@ class Board:
         """
         #Use: s = Board()
         #Pre: None
-        #Post: s is a new Nannon game
+        #Post: s is a new Nannon game Board()
         """
         self.board = board
         self.homes = homes
