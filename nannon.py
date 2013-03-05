@@ -124,7 +124,8 @@ class Nannon:
         """
         for i,r in enumerate(moves):
             f,t = r
-            chart = dict(zip(range(-6,0)+range(1,7)+range(8,13),["safety" for k in range(-6,0)] + range(1,7)+["safety" for h in range(8,13)]))
+            rangelist = [k for k in range(-6,14) if k != 0 and k != 7]
+            chart = dict(zip(rangelist,map(lambda x: x if x in range(1,7) else "safety",rangelist)))
             chart[self.board.home(color)] = "home"
             chart[self.board.safety(color)] =  "safety"
             print " %d: Move %s checker from %s to %s" %(i,self.intToColor(color),str(chart[f]),str(chart[t]))
