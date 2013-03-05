@@ -32,8 +32,6 @@ class testNannon(unittest.TestCase):
         self.assertNotIn((2,6),self.bo.validMoves(4,-1))
         self.assertNotIn((2,1),self.bo.validMoves(4,-1))
         self.assertNotIn((2,3),self.bo.validMoves(4,-1))
-        self.assertNotIn((1,7),self.bo.validMoves(6,-1))
-        self.assertNotIn((6,0),self.bo.validMoves(6,1))
         self.assertIn((2,4),self.bo2.validMoves(2,-1))
 
     def testConsequences(self):
