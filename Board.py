@@ -45,7 +45,7 @@ class Board:
         #Post: The checker of color col has been moved to to
         """
         sa = self.safety(col)
-        if to == sa:
+        if -1*col*to >= sa:
             pass
         else:
             if self.board[to-1] != 0:
@@ -103,8 +103,10 @@ class Board:
         """
         sa = self.safety(col)
         ho = self.home(col)
-        if to not in range(0,8):
-            return False
+        #if to not in range(0,8):
+        #    return False
+        if -1*col*to >= sa: #White: if to >= 7, black if -to >= 0 <=> to <= 0
+            return True
         if to == ho or to == sa:
             return (not self.prime(to))
         if (self.board[to-1] != col and not self.prime(to)):
